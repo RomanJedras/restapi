@@ -6,18 +6,18 @@ header("Content-Type: application/json; charset=UTF-8");
 // database connection will be here
 
 // include database and object files
-include_once '../config/database.php';
-include_once '../objects/product.php';
+include_once("core/main/autoload.php");
 
 // instantiate database and product object
-$database = new Database();
+$database = new \myApp\databases\Databases();
 $db = $database->getConnection();
  
 // initialize object
-$product = new Product($db);
+$product = new \myApp\product\Product($db);
  // query products
 $stmt = $product->read();
 $num = $stmt->rowCount();
+
 // check if more than 0 record found
 if($num>0){
  

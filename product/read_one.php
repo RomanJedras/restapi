@@ -8,15 +8,17 @@ header("Access-Control-Allow-Credentials: true");
 header('Content-Type: application/json');
  
 // include database and object files
-include_once '../config/database.php';
-include_once '../objects/product.php';
+include_once("core/main/autoload.php");
  
 // get database connection
-$database = new Database();
+$database = new \myApp\databases\Databases();
 $db = $database->getConnection();
  
-// prepare product object
-$product = new Product($db);
+// initialize object
+$product = new \myApp\product\Product($db);
+ // query products
+$stmt = $product->read();
+$num = $stmt->rowCount();
  
 // set ID property of record to read
 $product->id = isset($_GET['id']) ? $_GET['id'] : die();
