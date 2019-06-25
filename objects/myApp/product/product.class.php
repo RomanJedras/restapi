@@ -96,12 +96,13 @@ class Product {
     return false;
 	}		
 	
+	
 	function getProductLang() {
 
 	// query to read single record
     $query = "SELECT p.id, c.name as category_name, p.name, p.description, ps.price, ps.stock ,p.category_id, p.created, p.language_id, lg.name as language_name FROM " . $this->table_name . " p 
 	LEFT JOIN product_stock ps ON p.id = ps.product_id
-	LEFT JOIN categories c ON p.category_id = c.id LEFT JOIN language lg ON p.language_id = lg.id WHERE lg.name = ? LIMIT 0,1";
+	LEFT JOIN categories c ON p.category_id = c.id LEFT JOIN language lg ON lg.id = p.language_id WHERE lg.name = ? LIMIT 0,10";
  
     // prepare query statement
     $stmt = $this->conn->prepare( $query );
@@ -112,21 +113,9 @@ class Product {
     // execute query
     $stmt->execute();
  
-    // get retrieved row
-    $row = $stmt->fetch(\PDO::FETCH_ASSOC);
-	
     // set values to object properties
-	$this->id = $row['id'];
-    $this->name = $row['name'];
-    $this->price = $row['price'];
-	$this->stock = $row['stock'];
-    $this->description = $row['description'];
-	$this->language_id = $row['language_id'];
-	$this->language_name = $row['language_name'];
-    $this->category_id = $row['category_id'];
-	$this->category_name = $row['category_name'];
-}
-	
+	return $stmt;
+	}
 	 
 	 
 	function readOne(){
